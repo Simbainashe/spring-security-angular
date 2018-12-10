@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
@@ -55,18 +54,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/webjars/**","/resources/**");
+
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
+        http.
+                authorizeRequests()
                 .antMatchers("/", "/login**", "/webjars/**","/resources/**")
                 .permitAll()
-                .antMatchers("/**")
-                .hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -78,7 +77,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .permitAll()
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and()
+                .requestMatchers().antMatchers("/login", "/logout", "/oauth/authorize", "/oauth/confirm_access");
     }
 
 }
