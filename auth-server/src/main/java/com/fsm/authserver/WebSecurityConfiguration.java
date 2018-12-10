@@ -24,6 +24,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  */
 @Configuration
 @EnableWebSecurity(debug = true)
+@Order(-10)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
