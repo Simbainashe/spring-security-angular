@@ -59,7 +59,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .withClient("authorization-service")
                 .secret(passwordEncoder.encode("Testing4#"))
                 .scopes("write","read")
-                .authorizedGrantTypes("authorization_code","password","refresh_token","client_secret");
+                .authorizedGrantTypes("authorization_code","password","refresh_token","client_secret")
+                .and()
+                .withClient("client-app")
+                .secret(passwordEncoder.encode("Testing4#"))
+                .scopes("write","read")
+                .authorizedGrantTypes("authorization_code","password","refresh_token");
 
     }
     @Override
